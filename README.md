@@ -30,7 +30,7 @@ ncbi-hpc-uploader
 
 ## Setup
 Clone the repository and create a local configuration file.
-``
+```
 cp config/env.example.sh config/env.sh
 ```
 Edit the configuration file:
@@ -98,7 +98,7 @@ slurm/batch02.sbatch
 Each script uploads a specific batch to the NCBI preload directory.
 
 ## Step 3 — Upload the data
-Option 1 — Interactive upload (recommended)
+### Option 1 — Interactive upload (recommended)
 
 Run lftp from a login or data transfer node:
 ```
@@ -106,7 +106,7 @@ lftp -u $NCBI_USER,$NCBI_PASS sftp://$NCBI_HOST -f lftp/batch01.lftp
 ```
 You can repeat for each batch.
 
-## Option 2 — Automated upload using SLURM
+### Option 2 — Automated upload using SLURM
 
 If your HPC system allows outbound SFTP from compute nodes, submit all jobs:
 ```
@@ -121,7 +121,7 @@ squeue -u $USER
 
 ## Authentication
 
-Authentication is handled via environment variables defined in config/env.sh.
+Authentication is handled via environment variables defined in `config/env.sh.`
 
 These variables are passed to lftp:
 ```
@@ -156,7 +156,8 @@ nano config/env.sh
 
 # generate upload scripts
 ./scripts/generate_lftp_jobs.sh
-
+```
+```
 # upload interactively
 lftp -u $NCBI_USER,$NCBI_PASS sftp://$NCBI_HOST -f lftp/batch01.lftp
 Output files

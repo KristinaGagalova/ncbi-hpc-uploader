@@ -1,0 +1,18 @@
+# secrets / local config
+config/env.sh
+*.pass
+*.key
+
+# outputs
+batch*/          # optional: if you don't want to track batch symlink dirs
+batch_assignment.tsv
+
+# logs
+logs/
+slurm-*.out
+slurm-*.err
+*.log
+
+# temp
+*.tmp
+.DS_Store

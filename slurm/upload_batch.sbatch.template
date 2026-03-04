@@ -1,0 +1,31 @@
+#!/bin/bash
+#SBATCH --job-name=ncbi_{{BATCH}}
+#SBATCH --time=12:00:00
+#SBATCH --ntasks=1
+#SBATCH --mem=1G
+#SBATCH --account=ENTER_HERE
+#SBATCH --partition=ENTER_HERE [copy,work]
+#SBATCH --output=logs/{{BATCH}}_%j.out
+#SBATCH --error=logs/{{BATCH}}_%j.err
+
+set -euo pipefail
+
+# Load config
+# shellcheck disable=SC1091
+source config/env.sh
+
+BATCH="{{BATCH}}"
+LOCAL_DIR="{{LOCAL_DIR}}"
+REMOTE_DIR="{{REMOTE_DIR}}"
+LFTP_SCRIPT="{{LFTP_SCRIPT}}"
+
+mkdir -p logs
+
+# NOTE: Batch jobs are non-interactive, so lftp will prompt for password unless you have a non-interactive auth method.
+# This is best used when you can type password interactively, OR when your site supports secure auth methods.
+# If your environment cannot do non-interactive password auth, run lftp interactively on login node instead.
+
+# If you want lftp status lines to appear in logs, you can run under a pseudo-tty:
+# script -q -c "lftp -u ${NCBI_USER},'${NCBI_PASS}' sftp://${NCBI_HOST} -f ${LFTP_SCRIPT}" logs/${BATCH}_progress_${SLURM_JOB_ID}.log
+
+lftp -u "${NCBI_USER},${NCBI_PASS:-}" "sftp://${NCBI_HOST}" -f "${LFTP_SCRIPT}"

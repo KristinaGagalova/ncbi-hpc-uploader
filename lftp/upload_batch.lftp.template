@@ -1,0 +1,19 @@
+set cmd:trace yes
+set cmd:show-status yes
+set cmd:status-interval 1
+set sftp:auto-confirm yes
+set net:max-retries 3
+set net:reconnect-interval-base 5
+set net:reconnect-interval-max 60
+
+cd {{NCBI_ACCOUNT_DIR}}
+mkdir {{REMOTE_DIR}}
+cd {{REMOTE_DIR}}
+lcd {{LOCAL_DIR}}
+
+# Optional parallel puts (if supported by your lftp build)
+# mput -P {{LFTP_PARALLEL}} {{UPLOAD_GLOB}}
+mput {{UPLOAD_GLOB}}
+
+ls
+bye
